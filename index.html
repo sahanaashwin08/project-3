@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Unique Interview Dashboard</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      display: flex;
+      height: 100vh;
+      transition: background 0.5s, color 0.5s;
+    }
+    body.light {
+      background: #f5f5f5;
+      color: #222;
+    }
+    body.dark {
+      background: #1e1e2f;
+      color: #fff;
+    }
+    .sidebar {
+      width: 220px;
+      background: rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: background 0.5s;
+    }
+    body.light .sidebar {
+      background: #ddd;
+    }
+    .sidebar h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li {
+      padding: 10px;
+      margin: 6px 0;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .sidebar li:hover {
+      transform: scale(1.05);
+      background: #ff9800;
+      color: #000;
+    }
+    .main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .time {
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .date {
+      font-size: 22px;
+      margin-bottom: 20px;
+    }
+    .controls {
+      margin-bottom: 10px;
+    }
+    button {
+      padding: 8px 14px;
+      margin: 0 5px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #ff9800;
+      color: #000;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #ffa733;
+    }
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-top: 10px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .day {
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 6px;
+      text-align: center;
+      transition: transform 0.2s, background 0.3s;
+    }
+    .day:hover {
+      transform: scale(1.1);
+      background: #4caf50;
+      color: #fff;
+    }
+    .today {
+      background: #ff9800;
+      color: #000;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body class="dark">
+  <div class="sidebar">
+    <h2>📂 Directories</h2>
+    <ul>
+      <li>Documents</li>
+      <li>Pictures</li>
+      <li>Music</li>
+      <li>Videos</li>
+      <li>Downloads</li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="time" id="time"></div>
+    <div class="date" id="date"></div>
+    <div class="controls">
+      <button onclick="prevMonth()">◀ Prev</button>
+      <button onclick="nextMonth()">Next ▶</button>
+      <button onclick="toggleTheme()">Toggle Theme</button>
+    </div>
+    <div class="calendar" id="calendar"></div>
+  </div>
+
+  <script>
+    let current = new Date();
+
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("time").textContent = now.toLocaleTimeString();
+      document.getElementById("date").textContent = now.toLocaleDateString("en-GB", {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+      });
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    function generateCalendar(year, month) {
+      const calendar = document.getElementById("calendar");
+      calendar.innerHTML = "";
+      const today = new Date();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        calendar.appendChild(document.createElement("div"));
+      }
+      for (let d = 1; d <= daysInMonth; d++) {
+        const day = document.createElement("div");
+        day.textContent = d;
+        day.classList.add("day");
+        if (d === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+          day.classList.add("today");
+        }
+        calendar.appendChild(day);
+      }
+    }
+    generateCalendar(current.getFullYear(), current.getMonth());
+
+    function prevMonth() {
+      current.setMonth(current.getMonth() - 1);
+      generateCalendar(current.getFullYear(), current.getMonth());
+    }
+    function nextMonth() {
+      current.setMonth(current.getMonth() + 1);
+      generateCalendar(current.getFullYear(), current.getMonth());
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      body.classList.toggle("light");
+      body.classList.toggle("dark");
+    }
+  </script>
+</body>
+</html>
