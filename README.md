@@ -35,10 +35,10 @@
     The HTML loads first.
     The CSS applies the design.
     The JavaScript runs continuously, updating the clock and handling user actions.
- # output video:   
-https://github.com/user-attachments/assets/006a3e43-534a-41d3-a62c-c0452a1ecf02
-# output
-http://127.0.0.1:5500/index.HTML
+ 
+# output:
+http://127.0.0.1:5500/git/html-css-javascript-website/e-commer-website/indexx.html
+
 
 
 
